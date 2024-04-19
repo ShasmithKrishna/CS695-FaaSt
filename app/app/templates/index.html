@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask App</title>
+</head>
+<body>
+    <h2>Choose Registration Method:</h2>
+    <form action="/register-docker" method="post">
+        <button type="submit">Register Function via Docker Image</button>
+        <br>
+        <input type="text" name="dockerimg">
+        <br>
+        <input type="text" name="fnname">
+    </form>
+    <form action="/register-python" method="get">
+        <button type="submit">Register Function via Python File</button>
+    </form>
+</body>
+</html>

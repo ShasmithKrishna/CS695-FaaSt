@@ -1,0 +1,246 @@
+[
+    {
+        "Id": "b3296e6297dce167f43c9cfffbfce0c212ce668cf87d7cc3db9ef377be8d9ba4",
+        "Created": "2024-04-15T09:21:55.687421159Z",
+        "Path": "/bin/sh",
+        "Args": [
+            "-c",
+            "/bin/bash -c \"su - postgres -c 'pg_ctlcluster 14 main start'; /usr/pgadmin4/bin/setup-web.sh --yes; cd /home/labDirectory; npm i; while :; do sleep 10; done\""
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 56365,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2024-04-19T18:07:45.540765762Z",
+            "FinishedAt": "2024-04-15T18:22:39.346711618Z"
+        },
+        "Image": "sha256:7f7c6515a37967c59219811aef7bd3de0d5e49d40157fe74da72cd355321f01b",
+        "ResolvConfPath": "/var/lib/docker/containers/b3296e6297dce167f43c9cfffbfce0c212ce668cf87d7cc3db9ef377be8d9ba4/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/b3296e6297dce167f43c9cfffbfce0c212ce668cf87d7cc3db9ef377be8d9ba4/hostname",
+        "HostsPath": "/var/lib/docker/containers/b3296e6297dce167f43c9cfffbfce0c212ce668cf87d7cc3db9ef377be8d9ba4/hosts",
+        "LogPath": "/var/lib/docker/containers/b3296e6297dce167f43c9cfffbfce0c212ce668cf87d7cc3db9ef377be8d9ba4/b3296e6297dce167f43c9cfffbfce0c212ce668cf87d7cc3db9ef377be8d9ba4-json.log",
+        "Name": "/993112",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "docker-default",
+        "ExecIDs": [
+            "c6bd8ebead4789911313cb52cda2b3bba0d4d244831f8d155e94669923ff99c9"
+        ],
+        "HostConfig": {
+            "Binds": [
+                "/home/chanikya/Documents/cs387vlab/210050053_iitb_ac_in/9/93/112/labDirectory:/home/labDirectory",
+                "/home/chanikya/Documents/cs387vlab/210050053_iitb_ac_in/9/93/112/.evaluationScripts:/home/.evaluationScripts",
+                "/home/chanikya/.Xauthority:/root/.Xauthority:rw"
+            ],
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "host",
+            "PortBindings": null,
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "private",
+            "Dns": [],
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": null,
+            "BlkioDeviceReadBps": null,
+            "BlkioDeviceWriteBps": null,
+            "BlkioDeviceReadIOps": null,
+            "BlkioDeviceWriteIOps": null,
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": null,
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": null,
+            "Ulimits": null,
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/asound",
+                "/proc/acpi",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/sys/firmware",
+                "/sys/devices/virtual/powercap"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/9817e63888b3d89f832cc30258c8a5badf7c8178f1b59ae47e9de71bdeb49d4d-init/diff:/var/lib/docker/overlay2/78ecfa442cfc025273e8d6a8948d3893561b4d41925bb3b04f7e5be7673a4d0f/diff:/var/lib/docker/overlay2/6e30f081182f05472d722a92f8cc782f90554879c36c9ea7892246515ab5c511/diff:/var/lib/docker/overlay2/8d2a4419bca27362c21123ef881ca039a65568be975a16ab252876d3c15050cb/diff:/var/lib/docker/overlay2/088b4f751b7c85bc358fe1dc839cd2f30a7c61711e0a7aaee320c74b9e2724dd/diff:/var/lib/docker/overlay2/b27e49ed501a518cabbc34387423cdc3e5801cd035a50aa822e4b7be5917a610/diff:/var/lib/docker/overlay2/5c92cee2e1f1bbe3c2e6c887b8a508a24078609afc85d79efa09ff904adb86e3/diff:/var/lib/docker/overlay2/2e97875817e444f97d3f2f243cef66a035b9e2b701574fdcf0e8d5925d53c041/diff:/var/lib/docker/overlay2/c5f3438f24683ef7991d5ef01be4e8e4aa97e9afbc888e83f7933d98646357e7/diff:/var/lib/docker/overlay2/61a4494c1e0ec0cf4c5bd6cea7f29112e6be0d5b86f8e82436b645d6cc4dcf6b/diff:/var/lib/docker/overlay2/ef6194c9467e8907d2a34c9177c2af98f1516e0313d1d6ba57b778e58a4d82ce/diff:/var/lib/docker/overlay2/1c06b3debc0f5c2ed102a7c2365ff671051eb8d08523de09b52d422e88850293/diff:/var/lib/docker/overlay2/cb309c3a4d1fa151bdc4ffbde3b1c0299bb5ba1f93d0bc48d07a98c034d159a3/diff",
+                "MergedDir": "/var/lib/docker/overlay2/9817e63888b3d89f832cc30258c8a5badf7c8178f1b59ae47e9de71bdeb49d4d/merged",
+                "UpperDir": "/var/lib/docker/overlay2/9817e63888b3d89f832cc30258c8a5badf7c8178f1b59ae47e9de71bdeb49d4d/diff",
+                "WorkDir": "/var/lib/docker/overlay2/9817e63888b3d89f832cc30258c8a5badf7c8178f1b59ae47e9de71bdeb49d4d/work"
+            },
+            "Name": "overlay2"
+        },
+        "Mounts": [
+            {
+                "Type": "bind",
+                "Source": "/home/chanikya/Documents/cs387vlab/210050053_iitb_ac_in/9/93/112/.evaluationScripts",
+                "Destination": "/home/.evaluationScripts",
+                "Mode": "",
+                "RW": true,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/home/chanikya/Documents/cs387vlab/210050053_iitb_ac_in/9/93/112/labDirectory",
+                "Destination": "/home/labDirectory",
+                "Mode": "",
+                "RW": true,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/home/chanikya/.Xauthority",
+                "Destination": "/root/.Xauthority",
+                "Mode": "rw",
+                "RW": true,
+                "Propagation": "rprivate"
+            }
+        ],
+        "Config": {
+            "Hostname": "Inspiron",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": true,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "ExposedPorts": {
+                "11000/tcp": {},
+                "12000/tcp": {},
+                "13000/tcp": {}
+            },
+            "Tty": true,
+            "OpenStdin": true,
+            "StdinOnce": false,
+            "Env": [
+                "DISPLAY=:0",
+                "PATH=/home/.evaluationScripts:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "DEBIAN_FRONTEND=noninteractive",
+                "DEBCONF_NONINTERACTIVE_SEEN=true",
+                "INSTRUCTOR_SCRIPTS=/home/.evaluationScripts",
+                "LAB_DIRECTORY=/home/labDirectory",
+                "TERM=xterm"
+            ],
+            "Cmd": [
+                "/bin/sh",
+                "-c",
+                "/bin/bash -c \"su - postgres -c 'pg_ctlcluster 14 main start'; /usr/pgadmin4/bin/setup-web.sh --yes; cd /home/labDirectory; npm i; while :; do sleep 10; done\""
+            ],
+            "Image": "sarus.bodhi.cse.iitb.ac.in/34/cs387_lab4",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": {
+                "org.opencontainers.image.ref.name": "ubuntu",
+                "org.opencontainers.image.version": "22.04"
+            }
+        },
+        "NetworkSettings": {
+            "Bridge": "",
+            "SandboxID": "31360990f502ff478fdfbaa8de9e096f1092bba7f82b0fa68e9b012746b93ff7",
+            "SandboxKey": "/var/run/docker/netns/default",
+            "Ports": {},
+            "HairpinMode": false,
+            "LinkLocalIPv6Address": "",
+            "LinkLocalIPv6PrefixLen": 0,
+            "SecondaryIPAddresses": null,
+            "SecondaryIPv6Addresses": null,
+            "EndpointID": "",
+            "Gateway": "",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "IPAddress": "",
+            "IPPrefixLen": 0,
+            "IPv6Gateway": "",
+            "MacAddress": "",
+            "Networks": {
+                "host": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "MacAddress": "",
+                    "NetworkID": "43246855f7e0019605727dc75c17a3414046fe41a9a971b4b8daffa44f97de6d",
+                    "EndpointID": "626b450594105ee6fec8ca17870223a045ebe26a66ebef0947de54fa61e55787",
+                    "Gateway": "",
+                    "IPAddress": "",
+                    "IPPrefixLen": 0,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DriverOpts": null,
+                    "DNSNames": null
+                }
+            }
+        }
+    }
+]
