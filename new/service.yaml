@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+ name: nodeservice-loadbal
+spec:
+ selector:
+   app: helloapp
+ ports:
+ -  name: http
+    protocol: TCP
+    port: 4447  
+    targetPort: 4444
