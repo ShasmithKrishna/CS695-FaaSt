@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: helloapp
+  template:
+    metadata:
+      labels:
+        app: helloapp
+    spec:
+      containers:
+      - name: dind
+        image: docker:18.05-dind
+        securityContext:
+          privileged: true
+        volumeMounts:
+          - name: dind-storage
+            mountPath: /var/lib/docker
+      - name: helloapp
+        image: chanikya1409/chanikya:latest
+        # imagePullPolicy: Always
+        ports:
+          - containerPort: 4444
+        env:
+          - name: DOCKER_HOST
+            value: tcp://localhost:2375
+      volumes:
+        - name: dind-storage
+          emptyDir: {}

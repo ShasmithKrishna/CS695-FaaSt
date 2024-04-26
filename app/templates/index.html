@@ -14,8 +14,16 @@
         <br>
         <input type="text" name="fnname">
     </form>
+
     <form action="/register-python" method="get">
         <button type="submit">Register Function via Python File</button>
     </form>
+
+    <h1>List of Names</h1>
+    <ul>
+        {% for name in names %}
+            <li><a href="/Function/{{ name }}">{{ name }}</a></li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
