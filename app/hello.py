@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template
 import subprocess
+import os
 import json
 from kubernetes import client, config
 from kubernetes.stream import stream
@@ -9,15 +10,120 @@ config.load_kube_config(config_file='config.yaml')
 v1 = client.CoreV1Api()
 namespace = 'chanikya'
 apps_v1 = client.AppsV1Api()
-l = []
+func_list = []
+
+UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'uploads')
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
+def generate_dockerfile(function_name):
+    dockerfile_content = f"""
+    FROM ubuntu:22.04
+    RUN apt-get update && apt-get install -y python3 python3-pip
+
+    COPY uploads/{function_name}/requirements.txt /
+    RUN pip install --no-cache-dir -r requirements.txt
+
+    COPY uploads/{function_name}/{function_name}.py /
+    EXPOSE 4444
+
+    CMD ["bash", "-c","sleep infinity"]
+    """
+
+    with open(f'Dockerfile_{function_name}', 'w') as f:
+        f.write(dockerfile_content)
+
+
+def build_docker_image(function_name):
+    o = subprocess.check_output(f"docker build -t {function_name}-image -f Dockerfile_{function_name} ." ,shell=True, universal_newlines=True)
+    return function_name
+
+
+def deploy_function(fn_name, image_name, portnum):
+    print(f"Reached Here: {fn_name}")
+    try:
+        deploy_body = {
+            "kind": "Deployment",
+            "apiVersion": "apps/v1",
+            "metadata": {
+            "name": fn_name
+            },
+            "spec": {
+            "replicas": 2,
+            "selector": {
+                "matchLabels": {
+                "app": fn_name
+                }
+            },
+            "template": {
+                "metadata": {
+                "labels": {
+                    "app": fn_name
+                }
+                },
+                "spec": {
+                "containers": [
+                    {
+                    "name": fn_name,
+                    "image": image_name,
+                    "imagePullPolicy": "Always",
+                    "ports": [
+                        {
+                        "containerPort": int(portnum)
+                        }
+                    ]
+                    }
+                ]
+                }
+            }
+            }
+        }
+        apps_v1.create_namespaced_deployment(
+            namespace=namespace,
+            body=deploy_body
+        )
+    except Exception as e:
+            return f"app deploy error: {e}, {deploy_body}"        
+    try:
+        service_body = {
+            "kind": "Service",
+            "apiVersion": "v1",
+            "metadata": {
+            "name": 'service'+fn_name
+            },
+            "spec": {
+            "selector": {
+                "app": fn_name
+            },
+            "ports": [
+                {
+                "name": "http",
+                "protocol": "TCP",
+                "port": int(portnum),
+                "targetPort": int(portnum)
+                }
+            ]
+            }
+        }
+        v1.create_namespaced_service(namespace=namespace, body=service_body)    
+    except Exception as e:
+            return f"service error: {e}"
+    func_list.append(fn_name)
+    
+    return "Function registered successfully"
+    
+    
 @app.route('/', methods=['GET', 'POST'])
 def index():
         if request.method == 'GET':
-            return render_template('index.html', names=l)
+            return render_template('index.html', names=func_list)
         else:
-             return "POST request recieved"
+             return "POST request received"
 
-@app.route('/Function/<name>', methods=['GET', 'POST'])
+@app.route('/function/<name>', methods=['GET', 'POST'])
 def show_name(name):
     if request.method == 'GET':
         return render_template('fn.html', name=name)
@@ -46,9 +152,7 @@ def show_name(name):
             )
             return exec_response  
         else:
-            return "'error': 'No running pods found for the deployment'"
-        # pod_name = pod_list.items[0].metadata.name  
-       
+            return "'error': 'No running pods found for the deployment'"       
 
 @app.route('/register-docker', methods=['GET', 'POST'])
 def register_docker():
@@ -61,81 +165,38 @@ def register_docker():
             portnum = output.split('/')[0]
         except Exception as e:
              return f"first Unexpected error: {e}"
-        try:
-            deploy_body = {
-        "kind": "Deployment",
-        "apiVersion": "apps/v1",
-        "metadata": {
-        "name": fn_name
-        },
-        "spec": {
-        "replicas": 2,
-        "selector": {
-            "matchLabels": {
-            "app": fn_name
-            }
-        },
-        "template": {
-            "metadata": {
-            "labels": {
-                "app": fn_name
-            }
-            },
-            "spec": {
-            "containers": [
-                {
-                "name": fn_name ,
-                "image": image_name,
-                "imagePullPolicy": "Always",
-                "ports": [
-                    {
-                    "containerPort": int(portnum)
-                    }
-                ]
-                }
-            ]
-            }
-        }
-        }
-    }
-            
-            apps_v1.create_namespaced_deployment(
-                namespace=namespace,
-                body=deploy_body
-            )
-        except Exception as e:
-             return f"app deploy error: {e}, {deploy_body}"        
-        try:
-            service_body = {
-        "kind": "Service",
-        "apiVersion": "v1",
-        "metadata": {
-        "name": 'service'+fn_name
-        },
-        "spec": {
-        "selector": {
-            "app": fn_name
-        },
-        "ports": [
-            {
-            "name": "http",
-            "protocol": "TCP",
-            "port": int(portnum),
-            "targetPort": int(portnum)
-            }
-        ]
-        }
-    }
-            v1.create_namespaced_service(namespace=namespace, body=service_body)    
-        except Exception as e:
-             return f"service error: {e}"
-    
-    l.append(fn_name)
-    return "Success"   
-@app.route('/register-python')
+        msg = deploy_function(fn_name, image_name, portnum)
+        return msg  
+
+@app.route('/register-python', methods=['GET', 'POST'])
 def register_python():
     # Logic for registering function via Python file
-    return "Function registered via Python file!"
+    if request.method=="POST":
+        fn_name = request.form['fnname']
+        print(request.form)
+        if 'fnfile' not in request.files:
+            return 'No python code'
+        if 'fnreqs' not in request.files:
+            return 'No requirement file'
+        
+        fn_file = request.files['fnfile']
+        fn_req = request.files['fnreqs']
+        
+        if fn_file.filename == '':
+            return 'No selected file'
+        
+        folder_path = os.path.join(app.config['UPLOAD_FOLDER'], fn_name)
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+            
+        # Save the file to a desired location
+        fn_file.save(os.path.join(folder_path, fn_file.filename))
+        fn_req.save(os.path.join(folder_path, fn_req.filename))
+        # Create an empty requirements.txt if it doesn't exist -- not done yet
+        generate_dockerfile(fn_name)
+        build_docker_image(fn_name)
+        msg = deploy_function(fn_name, fn_name + "-image", 4444)
+        return msg
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

@@ -8,21 +8,39 @@
 <body>
     <h2>Choose Registration Method:</h2>
     <form action="/register-docker" method="post">
-        <button type="submit">Register Function via Docker Image</button>
+        <label>Function Name:</label>
+        <input type="text" name="fnname">
         <br>
+        <br>
+        <label>Docker Image:</label>
         <input type="text" name="dockerimg">
         <br>
-        <input type="text" name="fnname">
+        <br>
+        <button type="submit">Register Function via Docker Image</button>
+        <br>
     </form>
-
-    <form action="/register-python" method="get">
+    <br><br><br>
+    <form action="/register-python" method="post" enctype="multipart/form-data">
+        <label>Function Name:</label>
+        <input type="text" name="fnname">
+        <br>
+        <br>
+        <label>Python file for function code:</label>
+        <input type="file" name="fnfile" accept=".py">
+        <br>
+        <br>
+        <label>Requirements file for function code:</label>
+        <input type="file" name="fnreqs" accept=".txt">
+        <br>
+        <br>
         <button type="submit">Register Function via Python File</button>
+        <br>
     </form>
 
     <h1>List of Names</h1>
     <ul>
         {% for name in names %}
-            <li><a href="/Function/{{ name }}">{{ name }}</a></li>
+            <li><a href="/function/{{ name }}">{{ name }}</a></li>
         {% endfor %}
     </ul>
 </body>
