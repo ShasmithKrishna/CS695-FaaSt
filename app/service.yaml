@@ -4,7 +4,7 @@ metadata:
  name: nodeservice-loadbal
 spec:
  selector:
-   app: helloapp
+   app: helloappnew
  ports:
  -  name: http
     protocol: TCP

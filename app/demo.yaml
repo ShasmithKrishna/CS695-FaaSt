@@ -1,0 +1,20 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: fn_name
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fn_name
+  template:
+    metadata:
+      labels:
+        app: fn_name
+    spec:
+      containers:
+      - name: fn_name
+        image: demo-image:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 4444

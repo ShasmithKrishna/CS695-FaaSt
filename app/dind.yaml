@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+    name: dind
+spec:
+    containers:
+      - name: dind
+        image: docker:dind
+        resources:
+            requests:
+                cpu: 10m
+                memory: 300Mi
+            limits:
+                cpu: 2
+                memory: 300Mi
+        securityContext:
+            privileged: true
+            allowPrivilegeEscalation: true
+        volumeMounts:
+          - name: docker-graph-storage
+            mountPath: /var/lib/docker
+    volumes:
+      - name: docker-graph-storage
+        emptyDir: {}

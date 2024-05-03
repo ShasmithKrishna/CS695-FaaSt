@@ -1,26 +1,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: helloapp
+  name: helloappnew
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: helloapp
+      app: helloappnew
   template:
     metadata:
       labels:
-        app: helloapp
+        app: helloappnew
     spec:
       containers:
       - name: dind
-        image: docker:18.05-dind
+        image: docker:26.0.1-dind
+        resources:
+            requests:
+                cpu: 10m
+                memory: 300Mi
+            limits:
+                cpu: 2
+                memory: 300Mi
         securityContext:
-          privileged: true
+            privileged: true
+            allowPrivilegeEscalation: true
+        command: ["dockerd", "--host=unix:///var/run/docker.sock", "--host=tcp://0.0.0.0:2375", "--tls=false"]
         volumeMounts:
-          - name: dind-storage
+          - name: docker-graph-storage
             mountPath: /var/lib/docker
-      - name: helloapp
+      - name: helloappnew
         image: chanikya1409/chanikya:latest
         # imagePullPolicy: Always
         ports:
@@ -29,5 +38,5 @@ spec:
           - name: DOCKER_HOST
             value: tcp://localhost:2375
       volumes:
-        - name: dind-storage
-          emptyDir: {}
+      - name: docker-graph-storage
+        emptyDir: {}
